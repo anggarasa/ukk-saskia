@@ -110,4 +110,20 @@ class ProdukModel
         $result = $this->db->single();
         return $result['total'];
     }
+
+    // Menghitung total produk terjual
+    public function countTotalSold()
+    {
+        $this->db->query("SELECT SUM(terjual) as total_sold FROM produk");
+        $result = $this->db->single();
+        return $result['total_sold'] ?? 0;
+    }
+
+// Menghitung total pendapatan
+    public function countTotalRevenue()
+    {
+        $this->db->query("SELECT SUM(harga_produk * terjual) as total_revenue FROM produk");
+        $result = $this->db->single();
+        return $result['total_revenue'] ?? 0;
+    }
 }

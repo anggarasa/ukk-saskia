@@ -2,7 +2,6 @@
 
 class Produk  extends Controller
 {
-    // Produk.php
     public function index()
     {
         $limit = 5;
@@ -23,9 +22,13 @@ class Produk  extends Controller
             $totalData = $produkModel->countAll();
         }
 
+        // Menambahkan data statistik
         $data['total_pages'] = ceil($totalData / $limit);
         $data['current_page'] = $page;
         $data['keyword'] = $keyword; // Untuk mempertahankan keyword di input
+        $data['total_produk'] = $produkModel->countAll();
+        $data['total_terjual'] = $produkModel->countTotalSold();
+        $data['total_pendapatan'] = $produkModel->countTotalRevenue();
 
         $this->view('produk/index', $data);
     }

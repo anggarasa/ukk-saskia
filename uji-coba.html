@@ -3,250 +3,465 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Pelanggan - Kasir Pink</title>
+  <title>Dashboard Kasir</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
             pink: {
-              light: '#FEE2E2',
-              DEFAULT: '#F472B6',
-              dark: '#DB2777',
-            }
+              light: '#FFC0CB',
+              DEFAULT: '#FF69B4',
+              dark: '#DB7093',
+              darker: '#C71585'
+            },
           }
         }
       }
     }
-
-    // Toggle sidebar untuk mobile
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('hidden');
-    }
-
-    // Toggle modal tambah pelanggan
-    function toggleModal() {
-      const modal = document.getElementById('modal');
-      modal.classList.toggle('hidden');
-    }
-
-    // Data sample pelanggan
-    const customers = [
-      { id: 1, nama: "Budi Santoso", email: "budi@example.com", telepon: "081234567890", alamat: "Jl. Merdeka No. 10, Jakarta", poin: 250 },
-      { id: 2, nama: "Siti Rahayu", email: "siti@example.com", telepon: "082345678901", alamat: "Jl. Pahlawan No. 25, Bandung", poin: 120 },
-      { id: 3, nama: "Deni Wijaya", email: "deni@example.com", telepon: "083456789012", alamat: "Jl. Sudirman No. 15, Surabaya", poin: 340 },
-      { id: 4, nama: "Rina Hidayat", email: "rina@example.com", telepon: "084567890123", alamat: "Jl. Ahmad Yani No. 8, Semarang", poin: 180 },
-      { id: 5, nama: "Ahmad Fauzi", email: "ahmad@example.com", telepon: "085678901234", alamat: "Jl. Diponegoro No. 30, Yogyakarta", poin: 200 }
-    ];
-
-    // Render data pelanggan
-    document.addEventListener('DOMContentLoaded', function() {
-      const tableBody = document.getElementById('customerTableBody');
-
-      customers.forEach(customer => {
-        const row = document.createElement('tr');
-        row.className = "hover:bg-gray-50 border-b transition-all";
-        row.innerHTML = `
-                    <td class="px-4 py-3">${customer.id}</td>
-                    <td class="px-4 py-3">${customer.nama}</td>
-                    <td class="px-4 py-3 hidden md:table-cell">${customer.email}</td>
-                    <td class="px-4 py-3">${customer.telepon}</td>
-                    <td class="px-4 py-3 hidden lg:table-cell">${customer.alamat}</td>
-                    <td class="px-4 py-3 hidden sm:table-cell">
-                        <span class="bg-pink-light text-pink-dark text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                            ${customer.poin} poin
-                        </span>
-                    </td>
-                    <td class="px-4 py-3">
-                        <div class="flex items-center space-x-2">
-                            <button class="text-blue-500 hover:text-blue-700">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="text-red-500 hover:text-red-700">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-        tableBody.appendChild(row);
-      });
-    });
   </script>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 font-sans">
-<!-- Navbar -->
-<nav class="bg-white shadow-md fixed w-full z-10">
-  <div class="max-w-7xl mx-auto px-4">
-    <div class="flex justify-between h-16">
-      <div class="flex items-center">
-        <button onclick="toggleSidebar()" class="p-2 rounded-md text-gray-600 lg:hidden">
+<body class="bg-gray-50">
+<div class="min-h-screen flex flex-col md:flex-row">
+  <!-- Sidebar -->
+  <div class="bg-pink-darker text-white w-full md:w-64 md:min-h-screen transition-all duration-300 ease-in-out">
+    <div class="p-4">
+      <div class="flex items-center justify-between md:justify-center">
+        <h1 class="text-2xl font-bold">KasirKu</h1>
+        <button id="menuToggle" class="md:hidden">
           <i class="fas fa-bars"></i>
         </button>
-        <div class="flex-shrink-0 flex items-center ml-4 lg:ml-0">
-          <span class="text-pink-dark text-xl font-bold">PinkKasir</span>
-        </div>
-      </div>
-      <div class="flex items-center">
-        <div class="relative">
-          <button class="flex items-center text-gray-600 focus:outline-none">
-            <div class="h-8 w-8 rounded-full bg-pink-dark flex items-center justify-center text-white">
-              <i class="fas fa-user"></i>
-            </div>
-            <span class="ml-2 hidden md:block">Admin</span>
-            <i class="fas fa-chevron-down ml-1 text-xs hidden md:block"></i>
-          </button>
-        </div>
       </div>
     </div>
-  </div>
-</nav>
-
-<!-- Main Content -->
-<div class="flex pt-16">
-  <!-- Sidebar -->
-  <aside id="sidebar" class="hidden lg:block fixed inset-y-0 pt-16 w-64 bg-white shadow-md overflow-y-auto transition-all duration-300">
-    <div class="px-4 py-6">
-      <ul class="space-y-2">
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-light rounded-lg">
-            <i class="fas fa-home mr-3 text-pink-dark"></i>
+    <nav id="sideMenu" class="hidden md:block">
+      <ul class="mt-6">
+        <li class="px-4 py-3 bg-pink-dark rounded-lg mx-2 mb-1">
+          <a href="#" class="flex items-center">
+            <i class="fas fa-home mr-3"></i>
             <span>Dashboard</span>
           </a>
         </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 text-white bg-pink-dark rounded-lg">
+        <li class="px-4 py-3 hover:bg-pink-dark rounded-lg mx-2 mb-1 transition-all duration-200">
+          <a href="#" class="flex items-center">
+            <i class="fas fa-box mr-3"></i>
+            <span>Produk</span>
+          </a>
+        </li>
+        <li class="px-4 py-3 hover:bg-pink-dark rounded-lg mx-2 mb-1 transition-all duration-200">
+          <a href="#" class="flex items-center">
+            <i class="fas fa-shopping-cart mr-3"></i>
+            <span>Transaksi</span>
+          </a>
+        </li>
+        <li class="px-4 py-3 hover:bg-pink-dark rounded-lg mx-2 mb-1 transition-all duration-200">
+          <a href="#" class="flex items-center">
+            <i class="fas fa-chart-bar mr-3"></i>
+            <span>Laporan</span>
+          </a>
+        </li>
+        <li class="px-4 py-3 hover:bg-pink-dark rounded-lg mx-2 mb-1 transition-all duration-200">
+          <a href="#" class="flex items-center">
             <i class="fas fa-users mr-3"></i>
             <span>Pelanggan</span>
           </a>
         </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-light rounded-lg">
-            <i class="fas fa-box mr-3 text-pink-dark"></i>
-            <span>Produk</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-light rounded-lg">
-            <i class="fas fa-shopping-cart mr-3 text-pink-dark"></i>
-            <span>Transaksi</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-light rounded-lg">
-            <i class="fas fa-chart-bar mr-3 text-pink-dark"></i>
-            <span>Laporan</span>
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-light rounded-lg">
-            <i class="fas fa-cog mr-3 text-pink-dark"></i>
+        <li class="px-4 py-3 hover:bg-pink-dark rounded-lg mx-2 mb-1 transition-all duration-200">
+          <a href="#" class="flex items-center">
+            <i class="fas fa-cog mr-3"></i>
             <span>Pengaturan</span>
           </a>
         </li>
       </ul>
-    </div>
-  </aside>
+      <div class="absolute bottom-0 left-0 right-0 p-4 md:block hidden">
+        <a href="#" class="flex items-center text-white hover:text-pink-light">
+          <i class="fas fa-sign-out-alt mr-3"></i>
+          <span>Keluar</span>
+        </a>
+      </div>
+    </nav>
+  </div>
 
-  <!-- Content -->
-  <main class="flex-1 ml-0 lg:ml-64 p-4 md:p-8">
-    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-      <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Data Pelanggan</h1>
-        <div class="flex flex-col sm:flex-row gap-3">
+  <!-- Main Content -->
+  <div class="flex-1 overflow-x-hidden">
+    <!-- Top Navigation -->
+    <header class="bg-white shadow-sm">
+      <div class="flex items-center justify-between p-4">
+        <div class="flex items-center">
+          <h2 class="text-xl font-semibold text-gray-800">Daftar Produk</h2>
+        </div>
+        <div class="flex items-center space-x-4">
           <div class="relative">
-            <input type="text" placeholder="Cari pelanggan..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-dark focus:border-transparent">
-            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" placeholder="Cari produk..." class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink focus:border-transparent">
+            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
           </div>
-          <button onclick="toggleModal()" class="bg-pink-dark hover:bg-pink-600 text-white py-2 px-4 rounded-lg flex items-center justify-center">
-            <i class="fas fa-plus mr-2"></i> Tambah Pelanggan
+          <div class="relative">
+            <button class="relative p-2 bg-gray-100 rounded-full">
+              <i class="fas fa-bell text-gray-600"></i>
+              <span class="absolute top-0 right-0 h-4 w-4 bg-pink text-xs text-white rounded-full flex items-center justify-center">3</span>
+            </button>
+          </div>
+          <div class="flex items-center">
+            <img src="https://ui-avatars.com/api/?name=Admin&color=fff&background=FF69B4" alt="Profile" class="h-8 w-8 rounded-full mr-2">
+            <span class="hidden md:inline text-sm font-medium text-gray-700">Admin</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="p-4">
+      <!-- Cards Row -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-pink">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm">Total Produk</p>
+              <h3 class="text-2xl font-bold text-gray-800">125</h3>
+            </div>
+            <div class="bg-pink-light bg-opacity-20 p-3 rounded-full">
+              <i class="fas fa-box text-pink"></i>
+            </div>
+          </div>
+          <p class="text-green-500 text-sm mt-4"><i class="fas fa-arrow-up mr-1"></i> 12% dari bulan lalu</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-blue-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm">Produk Terjual</p>
+              <h3 class="text-2xl font-bold text-gray-800">543</h3>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-full">
+              <i class="fas fa-shopping-bag text-blue-500"></i>
+            </div>
+          </div>
+          <p class="text-green-500 text-sm mt-4"><i class="fas fa-arrow-up mr-1"></i> 18% dari bulan lalu</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-yellow-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm">Stok Menipis</p>
+              <h3 class="text-2xl font-bold text-gray-800">8</h3>
+            </div>
+            <div class="bg-yellow-100 p-3 rounded-full">
+              <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+            </div>
+          </div>
+          <p class="text-red-500 text-sm mt-4"><i class="fas fa-arrow-up mr-1"></i> 3 produk baru</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-green-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm">Pendapatan</p>
+              <h3 class="text-2xl font-bold text-gray-800">Rp 15.4M</h3>
+            </div>
+            <div class="bg-green-100 p-3 rounded-full">
+              <i class="fas fa-money-bill-wave text-green-500"></i>
+            </div>
+          </div>
+          <p class="text-green-500 text-sm mt-4"><i class="fas fa-arrow-up mr-1"></i> 7% dari bulan lalu</p>
+        </div>
+      </div>
+
+      <!-- Product Buttons -->
+      <div class="flex flex-wrap justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 md:mb-0">Kelola Produk</h2>
+        <div class="flex flex-wrap gap-2">
+          <button class="px-4 py-2 bg-pink hover:bg-pink-dark text-white rounded-lg transition-colors flex items-center">
+            <i class="fas fa-plus mr-2"></i> Tambah Produk
+          </button>
+          <button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors flex items-center">
+            <i class="fas fa-filter mr-2"></i> Filter
+          </button>
+          <button class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors flex items-center">
+            <i class="fas fa-download mr-2"></i> Ekspor
           </button>
         </div>
       </div>
 
-      <!-- Table -->
-      <div class="overflow-x-auto">
-        <table class="min-w-full">
-          <thead>
-          <tr class="bg-gray-50 border-b">
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Email</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telepon</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">Alamat</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Poin</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-          </tr>
-          </thead>
-          <tbody id="customerTableBody">
-          <!-- Data will be inserted here via JavaScript -->
-          </tbody>
-        </table>
+      <!-- Products Table -->
+      <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Produk
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Kategori
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Harga
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Stok
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Aksi
+              </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-tshirt text-pink"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">Kaos Pink Casual</div>
+                    <div class="text-sm text-gray-500">SKU: P001</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Pakaian</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Rp 150.000</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">25</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Aktif
+                                        </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-2"><i class="fas fa-eye"></i></button>
+                <button class="text-pink hover:text-pink-dark mr-2"><i class="fas fa-edit"></i></button>
+                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-shoe-prints text-pink"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">Sepatu Sneakers</div>
+                    <div class="text-sm text-gray-500">SKU: P002</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Sepatu</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Rp 350.000</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">12</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Aktif
+                                        </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-2"><i class="fas fa-eye"></i></button>
+                <button class="text-pink hover:text-pink-dark mr-2"><i class="fas fa-edit"></i></button>
+                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-headphones text-pink"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">Headphone Bluetooth</div>
+                    <div class="text-sm text-gray-500">SKU: P003</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Elektronik</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Rp 225.000</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">5</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Stok Rendah
+                                        </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-2"><i class="fas fa-eye"></i></button>
+                <button class="text-pink hover:text-pink-dark mr-2"><i class="fas fa-edit"></i></button>
+                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-book text-pink"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">Buku Bisnis Digital</div>
+                    <div class="text-sm text-gray-500">SKU: P004</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Buku</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Rp 95.000</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">32</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Aktif
+                                        </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-2"><i class="fas fa-eye"></i></button>
+                <button class="text-pink hover:text-pink-dark mr-2"><i class="fas fa-edit"></i></button>
+                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-mug-hot text-pink"></i>
+                  </div>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">Mug Keramik</div>
+                    <div class="text-sm text-gray-500">SKU: P005</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Perlengkapan Rumah</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Rp 75.000</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">0</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            Habis
+                                        </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-2"><i class="fas fa-eye"></i></button>
+                <button class="text-pink hover:text-pink-dark mr-2"><i class="fas fa-edit"></i></button>
+                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+          <div class="flex-1 flex justify-between sm:hidden">
+            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+              Previous
+            </a>
+            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+              Next
+            </a>
+          </div>
+          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+              <p class="text-sm text-gray-700">
+                Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">5</span> dari <span class="font-medium">125</span> produk
+              </p>
+            </div>
+            <div>
+              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                  <span class="sr-only">Previous</span>
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+                <a href="#" aria-current="page" class="z-10 bg-pink text-white relative inline-flex items-center px-4 py-2 border border-pink text-sm font-medium">
+                  1
+                </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                  2
+                </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium">
+                  3
+                </a>
+                <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                        ...
+                                    </span>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium">
+                  8
+                </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                  9
+                </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                  10
+                </a>
+                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                  <span class="sr-only">Next</span>
+                  <i class="fas fa-chevron-right"></i>
+                </a>
+              </nav>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <!-- Pagination -->
-      <div class="mt-4 flex flex-col sm:flex-row items-center justify-between">
-        <div class="text-sm text-gray-500 mb-4 sm:mb-0">
-          Menampilkan 1-5 dari 5 data
-        </div>
-        <div class="flex items-center space-x-2">
-          <button class="px-3 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="px-3 py-1 rounded bg-pink-dark text-white">1</button>
-          <button class="px-3 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-
-<!-- Modal Tambah Pelanggan -->
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto overflow-hidden">
-    <div class="flex justify-between items-center px-6 py-4 bg-pink-dark text-white">
-      <h3 class="text-lg font-semibold">Tambah Pelanggan Baru</h3>
-      <button onclick="toggleModal()" class="text-white hover:text-gray-200">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <form class="p-6">
-      <div class="grid grid-cols-1 gap-6">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-          <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-dark focus:border-transparent" placeholder="Masukkan nama lengkap">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-dark focus:border-transparent" placeholder="Masukkan email">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
-          <input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-dark focus:border-transparent" placeholder="Masukkan nomor telepon">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
-          <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-dark focus:border-transparent" rows="3" placeholder="Masukkan alamat lengkap"></textarea>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Poin Awal (Opsional)</label>
-          <input type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-dark focus:border-transparent" placeholder="0">
-        </div>
-      </div>
-      <div class="mt-6 flex items-center justify-end gap-3">
-        <button type="button" onclick="toggleModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-          Batal
-        </button>
-        <button type="submit" class="px-4 py-2 bg-pink-dark text-white rounded-md hover:bg-pink-600">
-          Simpan
-        </button>
-      </div>
-    </form>
+    </main>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const sideMenu = document.getElementById('sideMenu');
+
+    menuToggle.addEventListener('click', function() {
+      sideMenu.classList.toggle('hidden');
+    });
+
+    // Fungsi untuk mengatur menu pada layar kecil
+    function handleResize() {
+      if (window.innerWidth < 768) {
+        sideMenu.classList.add('hidden');
+      } else {
+        sideMenu.classList.remove('hidden');
+      }
+    }
+
+    // Panggil saat halaman dimuat
+    handleResize();
+
+    // Panggil ketika ukuran jendela berubah
+    window.addEventListener('resize', handleResize);
+  });
+</script>
 </body>
 </html>

@@ -1,7 +1,5 @@
 <?php require_once '../app/views/layouts/header.php'?>
 
-<?php require_once '../app/views/layouts/header.php'?>
-
 <!-- Main Content -->
 <div class="flex-grow container mx-auto px-4 py-8">
     <div class="mb-6 text-center">

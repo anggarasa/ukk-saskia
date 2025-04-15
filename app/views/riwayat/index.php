@@ -139,43 +139,76 @@
     </div>
 
     <!-- Pagination -->
-    <?php if (isset($data['pagination'])): ?>
-        <div class="flex justify-center mt-6">
-            <div class="inline-flex rounded-md shadow-sm">
-                <?php if ($data['pagination']['current_page'] > 1): ?>
-                    <a href="<?= BASE_URL ?>/riwayat?page=<?= $data['pagination']['current_page'] - 1 ?>" class="px-4 py-2 text-sm font-medium text-pink-500 bg-white border border-pink-200 rounded-l-lg hover:bg-pink-50">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
+    <div class="mt-6 flex justify-center">
+        <div class="flex flex-wrap items-center space-x-1">
+            <?php if($data['current_page'] > 1): ?>
+                <!-- Previous Page Button -->
+                <?php if(isset($data['keyword']) && !empty($data['keyword'])): ?>
+                    <form action="<?= BASE_URL ?>/riwayat/search" method="post">
+                        <input type="hidden" name="keyword" value="<?= $data['keyword'] ?>">
+                        <input type="hidden" name="page" value="<?= $data['current_page'] - 1 ?>">
+                        <button type="submit" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200">
+                            <i class="fas fa-chevron-left mr-1"></i> Prev
+                        </button>
+                    </form>
                 <?php else: ?>
-                    <span class="px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-l-lg cursor-not-allowed">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                <?php endif; ?>
-
-                <?php for ($i = 1; $i <= $data['pagination']['total_pages']; $i++): ?>
-                    <?php if ($i == $data['pagination']['current_page']): ?>
-                        <span class="px-4 py-2 text-sm font-medium text-white bg-pink-500 border border-pink-500">
-                            <?= $i ?>
-                        </span>
-                    <?php else: ?>
-                        <a href="<?= BASE_URL ?>/riwayat?page=<?= $i ?>" class="px-4 py-2 text-sm font-medium text-pink-500 bg-white border border-pink-200 hover:bg-pink-50">
-                            <?= $i ?>
-                        </a>
-                    <?php endif; ?>
-                <?php endfor; ?>
-
-                <?php if ($data['pagination']['current_page'] < $data['pagination']['total_pages']): ?>
-                    <a href="<?= BASE_URL ?>/riwayat?page=<?= $data['pagination']['current_page'] + 1 ?>" class="px-4 py-2 text-sm font-medium text-pink-500 bg-white border border-pink-200 rounded-r-lg hover:bg-pink-50">
-                        <i class="fas fa-chevron-right"></i>
+                    <a href="<?= BASE_URL ?>/riwayat/index/<?= $data['current_page'] - 1 ?>" class="px-4 py-2 bg-purple-100 text-pink-700 rounded-lg hover:bg-pink-200">
+                        <i class="fas fa-chevron-left mr-1"></i> Prev
                     </a>
-                <?php else: ?>
-                    <span class="px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-r-lg cursor-not-allowed">
-                        <i class="fas fa-chevron-right"></i>
-                    </span>
                 <?php endif; ?>
-            </div>
+            <?php endif; ?>
+
+            <!-- Page Numbers -->
+            <?php
+            $start_page = max(1, $data['current_page'] - 2);
+            $end_page = min($data['total_pages'], $data['current_page'] + 2);
+
+            for($i = $start_page; $i <= $end_page; $i++):
+                ?>
+                <?php if($i == $data['current_page']): ?>
+                <span class="px-4 py-2 bg-pink-600 text-white rounded-lg">
+                    <?= $i ?>
+                </span>
+            <?php else: ?>
+                <?php if(isset($data['keyword']) && !empty($data['keyword'])): ?>
+                    <form action="<?= BASE_URL ?>/riwayat/search" method="post" class="inline">
+                        <input type="hidden" name="keyword" value="<?= $data['keyword'] ?>">
+                        <input type="hidden" name="page" value="<?= $i ?>">
+                        <button type="submit" class="px-4 py-2 bg-white border border-pink-300 text-pink-700 rounded-lg hover:bg-pink-50">
+                            <?= $i ?>
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <a href="<?= BASE_URL ?>/riwayat/index/<?= $i ?>" class="px-4 py-2 bg-white border border-pink-300 text-pink-700 rounded-lg hover:bg-pink-50">
+                        <?= $i ?>
+                    </a>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if($data['current_page'] < $data['total_pages']): ?>
+                <!-- Next Page Button -->
+                <?php if(isset($data['keyword']) && !empty($data['keyword'])): ?>
+                    <form action="<?= BASE_URL ?>/riwayat/search" method="post">
+                        <input type="hidden" name="keyword" value="<?= $data['keyword'] ?>">
+                        <input type="hidden" name="page" value="<?= $data['current_page'] + 1 ?>">
+                        <button type="submit" class="px-4 py-2 bg-pink-100 text-pink-700 rounded-lg hover:bg-pink-200">
+                            Next <i class="fas fa-chevron-right ml-1"></i>
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <a href="<?= BASE_URL ?>/riwayat/index/<?= $data['current_page'] + 1 ?>" class="px-4 py-2 bg-pink-100 text-pink-700 rounded-lg hover:bg-pink-200">
+                        Next <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
+    </div>
+
+    <!-- Pagination Info -->
+    <div class="text-center text-gray-500 mt-2">
+        <p>Showing page <?= $data['current_page'] ?> of <?= $data['total_pages'] ?> (Total: <?= $data['total_data'] ?> records)</p>
+    </div>
 
     <!-- Detail Modal -->
     <div x-show="show" x-cloak class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">

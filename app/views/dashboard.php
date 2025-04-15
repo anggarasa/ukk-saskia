@@ -12,7 +12,7 @@
         <div class="flex justify-between items-start mb-4">
             <div>
                 <p class="text-gray-600 text-sm mb-1">Total Penjualan</p>
-                <h3 class="text-2xl font-bold text-gray-800">Rp <?= $data['total_pendapatan']['total_pendapatan'] ?></h3>
+                <h3 class="text-2xl font-bold text-gray-800">Rp <?= number_format($data['total_pendapatan']['total_pendapatan'],0,',','.') ?></h3>
             </div>
             <div class="bg-pink-100 p-3 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,7 +96,7 @@
                         </div>
                     </td>
                     <td class="py-3 pr-6">
-                        <span class="text-sm text-gray-600"><?= date('d/m/y', $terbaru['tgl_transaksi']) ?></span>
+                        <span class="text-sm text-gray-600"><?= date('d/m/y', strtotime($terbaru['tgl_transaksi'])) ?></span>
                     </td>
                     <td class="py-3">
                         <span class="text-sm font-medium text-gray-800">Rp <?= number_format($terbaru['total_harga'],0,',','.') ?></span>
@@ -124,7 +124,7 @@
                     <h4 class="text-sm font-medium text-gray-800"><?= $terlaris['nama_produk'] ?></h4>
                 </div>
                 <div class="text-right">
-                    <span class="text-sm font-medium text-gray-800"><?= $terlaris['terjual'] ?> terjual</span>
+                    <span class="text-sm font-medium text-gray-800"><?= $terlaris['total_terjual'] ?> terjual</span>
                 </div>
             </div>
             <?php endforeach; ?>

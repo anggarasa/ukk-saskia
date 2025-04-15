@@ -1,66 +1,43 @@
-<?php
-// Fungsi untuk memeriksa apakah URL saat ini cocok dengan path yang diberikan
-function is_active($path) {
-    // Ambil URL saat ini
-    $current_url = $_SERVER['REQUEST_URI'];
-
-    // Hapus query string jika ada
-    if (strpos($current_url, '?') !== false) {
-        $current_url = substr($current_url, 0, strpos($current_url, '?'));
-    }
-
-    // Jika path kosong (untuk halaman home/dashboard)
-    if ($path === '') {
-        return $current_url === BASE_URL || $current_url === BASE_URL . '/';
-    }
-
-    // Periksa apakah URL saat ini mengandung path yang diberikan
-    return strpos($current_url, BASE_URL . '/' . $path) !== false;
-}
-?>
-
-<aside id="sidebar" class="sidebar w-64 bg-white shadow-lg z-20 fixed h-full">
-    <div class="p-4 flex flex-col h-full">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-xl font-bold text-primary">Kasir Jeni</h2>
-            <button id="closeSidebar" class="md:hidden text-gray-500">
-                <i class="fas fa-times"></i>
-            </button>
+<aside id="sidebar" class="sidebar fixed h-full w-64 bg-white shadow-lg z-40 md:transform-none md:translate-x-0">
+    <div class="p-6">
+        <div class="flex items-center mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <h1 class="ml-2 text-xl font-bold text-gray-800">Kasir Saskia</h1>
         </div>
 
-        <nav class="flex-1">
-            <ul class="space-y-1">
-                <li>
-                    <a href="<?= BASE_URL ?>" class="flex items-center p-3 rounded-lg <?= is_active('') ? 'text-primary bg-blue-50 font-medium' : 'text-gray-600 hover:bg-gray-100' ?>">
-                        <i class="fas fa-tachometer-alt w-5 h-5 mr-3"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/transaksi" class="flex items-center p-3 rounded-lg <?= is_active('transaksi') ? 'text-primary bg-blue-50 font-medium' : 'text-gray-600 hover:bg-gray-100' ?>">
-                        <i class="fas fa-shopping-cart w-5 h-5 mr-3"></i>
-                        <span>Transaksi Baru</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/riwayat" class="flex items-center p-3 rounded-lg <?= is_active('riwayat/transaksi') ? 'text-primary bg-blue-50 font-medium' : 'text-gray-600 hover:bg-gray-100' ?>">
-                        <i class="fas fa-history w-5 h-5 mr-3"></i>
-                        <span>Riwayat Transaksi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/produk" class="flex items-center p-3 rounded-lg <?= is_active('produk') ? 'text-primary bg-blue-50 font-medium' : 'text-gray-600 hover:bg-gray-100' ?>">
-                        <i class="fas fa-box w-5 h-5 mr-3"></i>
-                        <span>Produk</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= BASE_URL ?>/pelanggan" class="flex items-center p-3 rounded-lg <?= is_active('pelanggan') ? 'text-primary bg-blue-50 font-medium' : 'text-gray-600 hover:bg-gray-100' ?>">
-                        <i class="fas fa-users w-5 h-5 mr-3"></i>
-                        <span>Pelanggan</span>
-                    </a>
-                </li>
-            </ul>
+        <nav>
+            <a href="<?= BASE_URL ?>" class="sidebar-link flex items-center p-3 mb-2 rounded-lg text-gray-700 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Dashboard
+            </a>
+            <a href="<?= BASE_URL ?>/transaksi" class="sidebar-link flex items-center p-3 mb-2 rounded-lg text-gray-700 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                Transaksi
+            </a>
+            <a href="<?= BASE_URL ?>/riwayat" class="sidebar-link flex items-center p-3 mb-2 rounded-lg text-gray-700 transition-all">
+                <svg class="w-5 h-5 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
+                </svg>
+                Riwayat Transaksi
+            </a>
+            <a href="<?= BASE_URL ?>/produk" class="sidebar-link flex items-center p-3 mb-2 rounded-lg text-gray-700 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                Produk
+            </a>
+            <a href="<?= BASE_URL ?>/pelanggan" class="sidebar-link flex items-center p-3 mb-2 rounded-lg text-gray-700 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                Pelanggan
+            </a>
         </nav>
     </div>
 </aside>

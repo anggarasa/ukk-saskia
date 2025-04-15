@@ -4,51 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Kasir</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3b82f6',
-                        secondary: '#64748b',
-                        success: '#10b981',
-                        warning: '#f59e0b',
-                        danger: '#ef4444',
+                        primary: '#EC4899',
+                        secondary: '#FBCFE8',
+                        dark: '#111827',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    <style type="text/css">
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
+    <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
-
-        .sidebar {
-            transition: all 0.3s ease-in-out;
+        .sidebar-link:hover {
+            background-color: #FBCFE8;
+            color: #EC4899;
         }
-
+        .sidebar-link.active {
+            background-color: #EC4899;
+            color: white;
+        }
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
             }
-            .sidebar.active {
+            .sidebar.open {
                 transform: translateX(0);
             }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 overflow-x-hidden">
-<div class="flex min-h-screen max-w-full">
-    <!-- Sidebar -->
-    <?php require_once 'sidebar.php'?>
+<body class="bg-gray-50 antialiased">
+<!-- Mobile Menu Toggle -->
+<div class="fixed top-4 left-4 z-50 block md:hidden">
+    <button id="menuToggle" class="bg-primary text-white p-2 rounded-lg shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+</div>
 
-    <!-- Main Content -->
-    <div class="flex-1 w-full ml-0 md:ml-64"">
-        <!-- Top Bar -->
-        <?php require_once 'navbar.php'?>
+<?php require_once 'sidebar.php'?>
+
+<!-- Main Content -->
+<main class="md:ml-64 min-h-screen p-6">

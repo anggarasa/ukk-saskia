@@ -1,82 +1,85 @@
 <?php require_once '../app/views/layouts/header.php'?>
 
+<?php require_once '../app/views/layouts/header.php'?>
+
 <!-- Main Content -->
-<main class="flex-grow container mx-auto px-4 py-6">
-    <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Transaksi Baru</h2>
+<div class="flex-grow container mx-auto px-4 py-8">
+    <div class="mb-6 text-center">
+        <h2 class="text-3xl font-bold text-pink-600 mb-2">Transaksi Baru</h2>
         <p class="text-gray-600">Isi detail transaksi pelanggan</p>
+        <div class="w-24 h-1 bg-pink-400 mx-auto mt-2 rounded-full"></div>
     </div>
 
     <!-- Transaction Form -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Customer & Product Selection -->
         <div class="lg:col-span-2 space-y-6">
             <!-- Customer Selection -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-                    <i class="fas fa-user mr-2 text-indigo-500"></i>
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-pink-500 transform transition-all hover:scale-[1.01]">
+                <h3 class="text-xl font-semibold mb-4 text-pink-600 flex items-center">
+                    <i class="fas fa-user mr-3 p-2 bg-pink-100 rounded-full text-pink-500"></i>
                     Pilih Pelanggan
                 </h3>
                 <div class="relative">
-                    <select id="customer" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                    <select id="customer" class="w-full p-3 border border-pink-200 rounded-lg focus:ring-pink-500 focus:border-pink-500 bg-white transition-all">
                         <option value="" disabled selected>Pilih pelanggan</option>
                         <?php foreach ($data['pelanggans'] as $pelanggan): ?>
-                        <option value="<?= $pelanggan['id'] ?>"><?= $pelanggan['nama'] ?></option>
+                            <option value="<?= $pelanggan['id'] ?>"><?= $pelanggan['nama'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
             </div>
 
             <!-- Product Selection -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-                    <i class="fas fa-shopping-cart mr-2 text-indigo-500"></i>
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-pink-500 transform transition-all hover:scale-[1.01]">
+                <h3 class="text-xl font-semibold mb-4 text-pink-600 flex items-center">
+                    <i class="fas fa-shopping-cart mr-3 p-2 bg-pink-100 rounded-full text-pink-500"></i>
                     Pilih Produk
                 </h3>
                 <div class="relative mb-4">
                     <div class="flex space-x-2">
-                        <select id="product" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                        <select id="product" class="w-full p-3 border border-pink-200 rounded-lg focus:ring-pink-500 focus:border-pink-500 bg-white transition-all">
                             <option value="" disabled selected>Pilih produk</option>
                             <?php foreach ($data['produks'] as $produk): ?>
-                            <option value="<?= $produk['id'] ?>" data-price="<?= $produk['harga_produk'] ?>" data-stock="<?= $produk['stok'] ?>"><?= $produk['nama_produk'] ?> - Rp <?= number_format($produk['harga_produk'], 0, ',', '.') ?></option>
+                                <option value="<?= $produk['id'] ?>" data-price="<?= $produk['harga_produk'] ?>" data-stock="<?= $produk['stok'] ?>"><?= $produk['nama_produk'] ?> - Rp <?= number_format($produk['harga_produk'], 0, ',', '.') ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <button id="add-product" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                        <button id="add-product" class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-all focus:ring-2 focus:ring-pink-300 flex items-center justify-center">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Product List -->
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white">
+                <div class="overflow-x-auto rounded-lg">
+                    <table class="min-w-full bg-white rounded-xl overflow-hidden">
                         <thead>
-                        <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-3 text-left">Produk</th>
-                            <th class="py-3 px-3 text-center">Harga</th>
-                            <th class="py-3 px-3 text-center">Jumlah</th>
-                            <th class="py-3 px-3 text-center">Subtotal</th>
-                            <th class="py-3 px-3 text-center">Aksi</th>
+                        <tr class="bg-pink-100 text-pink-800 text-sm font-medium">
+                            <th class="py-3 px-4 text-left rounded-tl-lg">Produk</th>
+                            <th class="py-3 px-4 text-center">Harga</th>
+                            <th class="py-3 px-4 text-center">Jumlah</th>
+                            <th class="py-3 px-4 text-center">Subtotal</th>
+                            <th class="py-3 px-4 text-center rounded-tr-lg">Aksi</th>
                         </tr>
                         </thead>
-                        <tbody id="product-list" class="text-gray-600">
+                        <tbody id="product-list" class="text-gray-600 divide-y divide-pink-100">
                         <!-- Products will be added here by JavaScript -->
                         </tbody>
                     </table>
                 </div>
 
                 <div id="empty-cart-message" class="text-center py-8 text-gray-500">
-                    <i class="fas fa-shopping-cart text-4xl mb-3"></i>
-                    <p>Belum ada produk dipilih</p>
+                    <i class="fas fa-shopping-cart text-5xl mb-4 text-pink-300"></i>
+                    <p class="text-pink-400">Belum ada produk dipilih</p>
                 </div>
             </div>
         </div>
 
         <!-- Payment Summary -->
         <div class="lg:col-span-1">
-            <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-pink-500 sticky top-20 transform transition-all hover:scale-[1.01]">
                 <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-                    <i class="fas fa-file-invoice-dollar mr-2 text-indigo-500"></i>
+                    <i class="fas fa-credit-card mr-2 text-pink-500"></i>
                     Ringkasan Pembayaran
                 </h3>
 
@@ -93,7 +96,7 @@
 
                     <div class="flex justify-between text-lg">
                         <span class="font-bold text-gray-800">Total</span>
-                        <span id="total" class="font-bold text-indigo-600">Rp 0</span>
+                        <span id="total" class="font-bold text-pink-600">Rp 0</span>
                     </div>
 
                     <div class="mt-6">
@@ -113,7 +116,7 @@
                         <span id="change" class="font-bold">Rp 0</span>
                     </div>
 
-                    <button id="submit-transaction" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition mt-4 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                    <button id="submit-transaction" class="w-full bg-pink-600 text-white py-3 px-4 rounded-lg hover:bg-pink-700 transition mt-4 disabled:bg-gray-400 disabled:cursor-not-allowed">
                         <i class="fas fa-check-circle mr-2"></i>
                         Proses Transaksi
                     </button>
@@ -121,7 +124,7 @@
             </div>
         </div>
     </div>
-</main>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -378,7 +381,7 @@
             };
 
             // Send transaction to server
-            fetch('/ukk-jeni/public/transaksi/create', {
+            fetch('/ukk-saskia/public/transaksi/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

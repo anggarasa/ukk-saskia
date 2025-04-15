@@ -71,7 +71,7 @@ class TransaksiModel {
 
             $this->db->commit();
             return $transaksi_id;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->db->rollBack();
             return false;
         }

@@ -15,14 +15,15 @@ class Transaksi extends Controller {
     }
 
     public function create() {
+        header('Content-Type: application/json');
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process JSON data
             $postData = json_decode(file_get_contents("php://input"), true);
 
-            // Validate data
-            if (!isset($postData['pelanggan_id']) || !isset($postData['items']) ||
-                !isset($postData['total_harga']) || !isset($postData['uang_diberikan'])) {
-                echo json_encode(['status' => 'error', 'message' => 'Data tidak lengkap']);
+            // Validasi JSON
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo json_encode(['status' => 'error', 'message' => 'Format JSON tidak valid']);
                 return;
             }
 

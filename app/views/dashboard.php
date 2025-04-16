@@ -12,7 +12,7 @@
         <div class="flex justify-between items-start mb-4">
             <div>
                 <p class="text-gray-600 text-sm mb-1">Total Penjualan</p>
-                <h3 class="text-2xl font-bold text-gray-800">Rp <?= number_format($data['total_pendapatan']['total_pendapatan'],0,',','.') ?></h3>
+                <h3 class="text-2xl font-bold text-gray-800">Rp <?= number_format($data['total_pendapatan'],0,',','.') ?></h3>
             </div>
             <div class="bg-pink-100 p-3 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

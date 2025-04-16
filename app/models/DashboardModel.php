@@ -13,9 +13,9 @@ class DashboardModel
 
     public function getTotalPendapatan()
     {
-        // Asumsi ada tabel 'transaksi' dengan kolom 'total'
-        $this->db->query("SELECT SUM(total_harga) as total_pendapatan FROM transaksi");
-        return $this->db->single();
+        $this->db->query("SELECT SUM(harga_produk * terjual) as total_revenue FROM produk");
+        $result = $this->db->single();
+        return $result['total_revenue'] ?? 0;
     }
 
     public function getJumlahTransaksi()

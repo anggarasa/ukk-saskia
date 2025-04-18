@@ -2,7 +2,7 @@
 
 
 // Ubah ini sesuai lokasi proyek kamu di localhost atau hosting
-define('BASE_URL', 'http://localhost/ukk-saskia/public');
+define('BASE_URL', 'http://ukk-saskia.test');
 
 // Konfigurasi database
 define('DB_HOST', 'localhost');
